@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Luma Salon{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  {% if current_user %}
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-mark">L</span><span>Luma<span class="brand-soft">Salon</span></span></a>
+    <nav class="nav-links">
+      <a href="{{ url_for('dashboard') }}">Overview</a>
+      <a href="{{ url_for('view_appointments') }}">Appointments</a>
+      {% if current_user.can('search') %}<a href="{{ url_for('search') }}">Search</a>{% endif %}
+    </nav>
+    <div class="account"><span class="avatar">{{ current_user.name[0] }}</span><div><strong>{{ current_user.name }}</strong><small>{{ current_user.role() }}</small></div><a class="logout" href="{{ url_for('logout') }}" title="Log out">↗</a></div>
+  </header>
+  {% endif %}
+  <main class="page-shell">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}<div class="flash-stack">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}<button onclick="this.parentElement.remove()">×</button></div>{% endfor %}</div>{% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">Luma Salon <span>•</span> Appointment workspace <span>•</span> Temporary demo storage</footer>
+</body>
+</html>

@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block title %}Page not found · Luma Salon{% endblock %}{% block content %}<section class="empty-page"><span class="eyebrow">404</span><h1>{{ message }}</h1><a class="button button-dark" href="{{ url_for('dashboard') if current_user else url_for('login') }}">Return to Luma <span>→</span></a></section>{% endblock %}
